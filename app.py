@@ -2,6 +2,7 @@ from flask import Flask, flash, request, redirect, url_for, render_template
 import urllib.request
 import os
 from werkzeug.utils import secure_filename
+import cv2
 
 app = Flask(__name__)
 UPLOAD_FOLDER = 'static/uploads/'
@@ -46,7 +47,28 @@ def upload_image():
 def result():
     img_one = UPLOAD_FOLDER + "/one.jpeg"
     img_two = UPLOAD_FOLDER + "/two.jpeg"
-    return render_template('result.html')
+    im1 = cv2.imread(img_one)
+    im2 = cv2.imread(img_two)
+    data1 = im1.shape
+    data2 = im2.shape 
+    img_one_score = 0 
+    img_two_score = 0 
+    if data1[0] > data2[0] and data1[1] > data2[1]:
+        img_one_score += 1
+    else:
+        img_two_score += 1 
+    
+    if img_one_score > img_two_score:
+        res = img_one
+    else:
+        res = img_two
+
+    print(img_one_score)
+    print(img_two_score)
+    
+    print(data1)
+    print(data2)
+    return render_template('result.html', data=res)
 
 
 
