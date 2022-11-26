@@ -14,8 +14,7 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
  
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-     
-username = ''
+
 
 @app.route('/')
 def home():
@@ -28,8 +27,6 @@ def upload_image():
         return redirect(request.url)
     file = request.files['file']
     file1 = request.files['file1']
-    global username 
-    username = request.form['user']
     if file.filename == '' or file1.filename == '':
         flash('No image selected for uploading')
         return redirect(request.url)
@@ -40,19 +37,18 @@ def upload_image():
         file1.save(os.path.join(app.config['UPLOAD_FOLDER'], 'two.jpeg'))
         #print('upload_image filename: ' + filename)
         flash('Image successfully uploaded and displayed below')
-        return render_template('index.html', filename='one.jpeg', filename1='two.jpeg', user=username)
+        return render_template('index.html', filename='one.jpeg', filename1='two.jpeg')
     else:
         flash('Allowed image types are - png, jpg, jpeg, gif')
         return redirect(request.url)
  
-@app.route('/result', methods=['POST'])
+@app.route('/result')
 def result():
+    img_one = UPLOAD_FOLDER + "/one.jpeg"
+    img_two = UPLOAD_FOLDER + "/two.jpeg"
     return render_template('result.html')
 
-user = username
-@app.route('/<user>')
-def hi(user):
-    return f"Hi {user}"
+
 
 @app.route('/display/<filename>')
 def display_image(filename):
