@@ -1,0 +1,167 @@
+<html>
+
+<head>
+    <title>Python Flask Upload and display image</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+    <style>
+        .maindiv {
+            border: 3px solid #fff;
+            padding: 20px;
+        }
+
+        .imgdiv {
+            width: 50%;
+            float: left;
+            padding: 20px;
+        }
+
+        .imgdiv img {
+            width: 100%;
+            height: auto;
+        }
+
+        .btndiv {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .one {
+            float: left;
+        }
+
+        .two {
+            float: right;
+        }
+
+        body {
+            font-family: Tahoma;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        a {
+            text-decoration: none;
+            color: darkblue;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        img {
+            width: 275px;
+            height: 350px;
+            border: 2px solid #aaa;
+        }
+
+        #header {
+            background-color: #8C1B08;
+            color: #fff;
+            padding: 5px;
+        }
+
+        #header a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        #main table {
+            margin: 0 auto;
+        }
+
+        #footer {
+            font: 12px Tahoma;
+            margin: 25px 0 50px 0;
+        }
+
+        #footer a {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="header">
+        <h1><a href="index.html">PyImg</a></h1>
+    </div>
+    <div id="main">
+        <h3>Judge two images easily!</h3>
+        <div class="container">
+            <div class="row">
+                <h2>Select a file to upload</h2>
+                <p>
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                    <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                {% endwith %}
+                </p>
+
+                <form method="post" action="/" enctype="multipart/form-data">
+                    <dl>
+                        <p>
+                            <label for="one">Image 1: </label>
+                            <input type="file" name="file" id="one" class="form-control" autocomplete="off" required>
+                        </p>
+                    </dl>
+                    <dl>
+                        <p>
+                            <label for="two">Image 2: </label>
+                            <input type="file" name="file1" id="two" class="form-control" autocomplete="off" required>
+                        </p>
+                    </dl>
+                    <p>
+                        <input type="submit" value="Submit" class="btn btn-info">
+                    </p>
+                </form>
+            </div>
+        </div>
+        <h2>Choosen Images</h2>
+        <table>
+            <tr>
+                {% if filename %}
+                <td><img src="{{ url_for('display_image', filename=filename) }}" /></td>
+                {% endif %}
+                <td>OR</td>
+                {% if filename1 %}
+                <td><img src="{{ url_for('display_image', filename=filename1) }}"/></td>
+                {% endif %}
+            </tr>
+        </table>
+    </div>
+    <br>
+    <div>
+        <form action="/{{user}}">
+            <input type="submit" name="" id="" value="Judge" class="btn btn-info">
+        </form>
+    </div>
+    <div id="footer">
+        <a href="#">TURKEY</a>
+        <a href="#">GERMANY</a>
+        <a href="#">ITALY</a>
+        <a href="#">RUSSIA</a>
+        <a href="#">RANDOM</a>
+        <br />
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="submit.html">Submit</a>
+        <a href="rankings.html">Rankings</a>
+    </div>
+
+    <script>
+        const sayHi = () => {
+            console.log("hi")
+        }
+    </script>
+</body>
+
+</html>
